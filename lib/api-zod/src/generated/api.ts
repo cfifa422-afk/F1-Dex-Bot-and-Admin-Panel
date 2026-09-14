@@ -47,6 +47,10 @@ export const GetDriversQueryParams = zod.object({
   "search": zod.coerce.string().optional()
 })
 
+export const getDriversResponseSpawnWeightMin = 0;
+
+
+
 export const GetDriversResponseItem = zod.object({
   "id": zod.number().int(),
   "name": zod.string(),
@@ -58,6 +62,8 @@ export const GetDriversResponseItem = zod.object({
   "rating": zod.number().int(),
   "active": zod.boolean(),
   "imageUrl": zod.string().nullable(),
+  "spawnImageUrl": zod.string().nullable(),
+  "spawnWeight": zod.number().min(getDriversResponseSpawnWeightMin),
   "createdAt": zod.string()
 })
 export const GetDriversResponse = zod.array(GetDriversResponseItem)
@@ -78,6 +84,8 @@ export const createDriverBodyNationalityMin = 2;
 
 export const createDriverBodyRatingMax = 100;
 
+export const createDriverBodySpawnWeightMin = 0;
+
 
 
 export const CreateDriverBody = zod.object({
@@ -89,8 +97,14 @@ export const CreateDriverBody = zod.object({
   "rarity": zod.enum(['common', 'rare', 'epic', 'legendary']),
   "rating": zod.number().int().min(1).max(createDriverBodyRatingMax),
   "active": zod.boolean(),
-  "imageUrl": zod.string().nullish()
+  "imageUrl": zod.string().nullish(),
+  "spawnImageUrl": zod.string().nullish(),
+  "spawnWeight": zod.number().min(createDriverBodySpawnWeightMin).optional()
 })
+
+export const createDriverResponseSpawnWeightMin = 0;
+
+
 
 export const CreateDriverResponse = zod.object({
   "id": zod.number().int(),
@@ -103,6 +117,8 @@ export const CreateDriverResponse = zod.object({
   "rating": zod.number().int(),
   "active": zod.boolean(),
   "imageUrl": zod.string().nullable(),
+  "spawnImageUrl": zod.string().nullable(),
+  "spawnWeight": zod.number().min(createDriverResponseSpawnWeightMin),
   "createdAt": zod.string()
 })
 
@@ -126,6 +142,8 @@ export const updateDriverBodyNationalityMin = 2;
 
 export const updateDriverBodyRatingMax = 100;
 
+export const updateDriverBodySpawnWeightMin = 0;
+
 
 
 export const UpdateDriverBody = zod.object({
@@ -137,8 +155,14 @@ export const UpdateDriverBody = zod.object({
   "rarity": zod.enum(['common', 'rare', 'epic', 'legendary']).optional(),
   "rating": zod.number().int().min(1).max(updateDriverBodyRatingMax).optional(),
   "active": zod.boolean().optional(),
-  "imageUrl": zod.string().nullish()
+  "imageUrl": zod.string().nullish(),
+  "spawnImageUrl": zod.string().nullish(),
+  "spawnWeight": zod.number().min(updateDriverBodySpawnWeightMin).optional()
 })
+
+export const updateDriverResponseSpawnWeightMin = 0;
+
+
 
 export const UpdateDriverResponse = zod.object({
   "id": zod.number().int(),
@@ -151,6 +175,8 @@ export const UpdateDriverResponse = zod.object({
   "rating": zod.number().int(),
   "active": zod.boolean(),
   "imageUrl": zod.string().nullable(),
+  "spawnImageUrl": zod.string().nullable(),
+  "spawnWeight": zod.number().min(updateDriverResponseSpawnWeightMin),
   "createdAt": zod.string()
 })
 

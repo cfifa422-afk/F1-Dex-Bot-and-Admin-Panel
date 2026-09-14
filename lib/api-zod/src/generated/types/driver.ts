@@ -19,5 +19,9 @@ export interface Driver {
   active: boolean;
   /** @nullable */
   imageUrl: string | null;
+  /** @nullable */
+  spawnImageUrl: string | null;
+  /** @minimum 0 */
+  spawnWeight: number;
   createdAt: string;
 }

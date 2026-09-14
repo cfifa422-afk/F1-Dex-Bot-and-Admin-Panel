@@ -35,6 +35,10 @@ export interface Driver {
   active: boolean;
   /** @nullable */
   imageUrl: string | null;
+  /** @nullable */
+  spawnImageUrl: string | null;
+  /** @minimum 0 */
+  spawnWeight: number;
   createdAt: string;
 }
 
@@ -68,6 +72,10 @@ export interface DriverInput {
   active: boolean;
   /** @nullable */
   imageUrl?: string | null;
+  /** @nullable */
+  spawnImageUrl?: string | null;
+  /** @minimum 0 */
+  spawnWeight?: number;
 }
 
 export type DriverUpdateRarity = typeof DriverUpdateRarity[keyof typeof DriverUpdateRarity];
@@ -100,6 +108,10 @@ export interface DriverUpdate {
   active?: boolean;
   /** @nullable */
   imageUrl?: string | null;
+  /** @nullable */
+  spawnImageUrl?: string | null;
+  /** @minimum 0 */
+  spawnWeight?: number;
 }
 
 export type PlayerStatus = typeof PlayerStatus[keyof typeof PlayerStatus];

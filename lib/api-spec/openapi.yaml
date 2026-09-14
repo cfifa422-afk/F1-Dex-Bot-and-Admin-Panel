@@ -252,9 +252,14 @@ components:
           type: boolean
         imageUrl:
           type: ["string", "null"]
+        spawnImageUrl:
+          type: ["string", "null"]
+        spawnWeight:
+          type: number
+          minimum: 0
         createdAt:
           type: string
-      required: [id, name, shortName, number, team, nationality, rarity, rating, active, imageUrl, createdAt]
+      required: [id, name, shortName, number, team, nationality, rarity, rating, active, imageUrl, spawnImageUrl, spawnWeight, createdAt]
     DriverInput:
       type: object
       properties:
@@ -284,6 +289,11 @@ components:
           type: boolean
         imageUrl:
           type: ["string", "null"]
+        spawnImageUrl:
+          type: ["string", "null"]
+        spawnWeight:
+          type: number
+          minimum: 0
       required: [name, shortName, number, team, nationality, rarity, rating, active]
     DriverUpdate:
       type: object
@@ -314,6 +324,11 @@ components:
           type: boolean
         imageUrl:
           type: ["string", "null"]
+        spawnImageUrl:
+          type: ["string", "null"]
+        spawnWeight:
+          type: number
+          minimum: 0
     Player:
       type: object
       properties:

@@ -9,6 +9,8 @@ export type Driver = {
   rating: number;
   active: boolean;
   imageUrl: string | null;
+  spawnImageUrl: string | null;
+  spawnWeight: number;
   createdAt: string;
 };
 
@@ -44,6 +46,8 @@ export const drivers: Driver[] = [
     rating: 94,
     active: true,
     imageUrl: null,
+    spawnImageUrl: null,
+    spawnWeight: 1,
     createdAt: "2026-01-08T09:30:00.000Z",
   },
   {
@@ -57,6 +61,8 @@ export const drivers: Driver[] = [
     rating: 91,
     active: true,
     imageUrl: null,
+    spawnImageUrl: null,
+    spawnWeight: 1,
     createdAt: "2026-01-08T09:32:00.000Z",
   },
   {
@@ -70,6 +76,8 @@ export const drivers: Driver[] = [
     rating: 93,
     active: true,
     imageUrl: null,
+    spawnImageUrl: null,
+    spawnWeight: 0.8,
     createdAt: "2026-01-08T09:34:00.000Z",
   },
   {
@@ -83,6 +91,8 @@ export const drivers: Driver[] = [
     rating: 98,
     active: true,
     imageUrl: null,
+    spawnImageUrl: null,
+    spawnWeight: 0.6,
     createdAt: "2026-01-08T09:36:00.000Z",
   },
   {
@@ -96,6 +106,8 @@ export const drivers: Driver[] = [
     rating: 88,
     active: true,
     imageUrl: null,
+    spawnImageUrl: null,
+    spawnWeight: 2,
     createdAt: "2026-01-08T09:38:00.000Z",
   },
   {
@@ -109,6 +121,8 @@ export const drivers: Driver[] = [
     rating: 90,
     active: true,
     imageUrl: null,
+    spawnImageUrl: null,
+    spawnWeight: 1.2,
     createdAt: "2026-01-08T09:40:00.000Z",
   },
 ];

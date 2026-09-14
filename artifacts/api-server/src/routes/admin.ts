@@ -56,6 +56,8 @@ router.post("/drivers", (req, res) => {
     ...input,
     id: Math.max(0, ...drivers.map((item) => item.id)) + 1,
     imageUrl: input.imageUrl ?? null,
+    spawnImageUrl: input.spawnImageUrl ?? null,
+    spawnWeight: input.spawnWeight ?? 1,
     createdAt: now(),
   };
   drivers.unshift(driver);
