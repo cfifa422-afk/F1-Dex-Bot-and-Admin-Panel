@@ -23,6 +23,8 @@ settings.plural_collectible_name = "drivers"
 settings.balls_slash_name = "drivers"
 settings.prefix = "f1."
 settings.site_base_url = os.environ.get("F1_DEX_SITE_URL", "http://localhost:5000")
+if admin_ids := os.environ.get("F1_DEX_ADMIN_IDS"):
+    settings.coowners = admin_ids
 if token := os.environ.get("DISCORD_TOKEN"):
     settings.bot_token = token
 settings.save()

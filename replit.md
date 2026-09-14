@@ -52,6 +52,8 @@ F1 Dex is an F1-themed Discord collection game with a race-control dashboard for
 
 - The configured `F1 Dex Discord Bot` workflow runs `ballsdex-bot/run_f1_dex.sh`.
 - The bot needs `DATABASE_URL` and `DISCORD_TOKEN` configured as Replit Secrets.
+- `F1_DEX_ADMIN_IDS` is a semicolon-separated list of Discord user IDs that
+  receive bot-owner permissions during F1 bootstrap.
 - In Discord, run `/config channel`, accept the activation message, and grant
   Read Messages, Send Messages, Embed Links, and Attach Files in the spawn
   channel. Human chat messages then drive automatic driver spawns.
