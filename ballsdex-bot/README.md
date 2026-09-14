@@ -31,6 +31,49 @@ You can learn how to setup Ballsdex and use all of its tools on the
 [wiki](https://wiki.ballsdex.com)!
 More sections are added progressively.
 
+## F1 Dex quick start
+
+The imported F1 Dex setup uses the normal BallsDex spawning system:
+
+1. Invite the bot with permission to read messages, send messages, embed links,
+   and attach files.
+2. In the server, run `/config channel` in the channel where cards should
+   appear. If you run it in a different channel, pass the target channel as the
+   command argument.
+3. Press **Accept** on the activation message. After that, normal human
+   messages build spawn progress and the bot posts a random enabled driver with
+   a **Catch me!** button. The first spawn is intentionally delayed by the
+   normal cooldown and the message-activity threshold.
+4. Use `/config status` to check the selected channel, enabled state, and
+   permissions. Use `/config disable` to pause or resume spawning.
+
+### Adding a driver card
+
+Cards are stored in the database as `Ball` records. A driver needs both image
+files: a spawn image (`wild_card`) and a collection image
+(`collection_card`).
+
+For an owner or administrator with the required model permission, the quickest
+Discord method is:
+
+```text
+/drivers create
+```
+
+Attach the spawn image and collection image, then fill in the driver name,
+health, attack, rarity, emoji ID, credits, ability name, ability description,
+and regime. Set `enabled` to `yes` for the driver to be eligible for automatic
+spawns. The emoji must exist in a server or application emoji collection the
+bot can access.
+
+The Django admin panel can also be used to add or edit cards. Open the
+configured admin site, choose **Ball**, and fill in the same fields under
+**Assets**, including both image uploads. After saving, run the owner command
+`reloadcache` (or restart the bot) so the new card is available to spawning.
+
+If a card should be collectible but not appear automatically, save it with
+`enabled` set to `no`; it can still be used by administrative spawn commands.
+
 ## Supporting
 
 If you appreciate my work, you can support me on my [Patreon](https://patreon.com/retke)!

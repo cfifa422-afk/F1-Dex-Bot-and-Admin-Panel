@@ -47,3 +47,14 @@ F1 Dex is an F1-themed Discord collection game with a race-control dashboard for
 - If the OpenAPI file changes, run codegen before using new hooks or Zod schemas.
 - The frontend and API are separate managed workflows and both must be running for live data.
 - The imported upstream bot targets Python 3.14 and has its own dependency/runtime setup; it is source-imported but not launched by the TypeScript preview workflow yet.
+
+## F1 Discord operation
+
+- The configured `F1 Dex Discord Bot` workflow runs `ballsdex-bot/run_f1_dex.sh`.
+- The bot needs `DATABASE_URL` and `DISCORD_TOKEN` configured as Replit Secrets.
+- In Discord, run `/config channel`, accept the activation message, and grant
+  Read Messages, Send Messages, Embed Links, and Attach Files in the spawn
+  channel. Human chat messages then drive automatic driver spawns.
+- Add or edit driver cards through `/drivers create` or the Django admin panel.
+  Each card needs a spawn image, collection image, stats, rarity, emoji ID,
+  and regime. Use the owner `reloadcache` command after admin changes.

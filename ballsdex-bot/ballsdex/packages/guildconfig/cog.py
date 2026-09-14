@@ -78,6 +78,7 @@ class Config(commands.GroupCog):
                 ("Read Messages", channel_perms.read_messages),
                 ("Send Messages", channel_perms.send_messages),
                 ("Embed Links", channel_perms.embed_links),
+                ("Attach Files", channel_perms.attach_files),
             )
             if not granted
         ]
