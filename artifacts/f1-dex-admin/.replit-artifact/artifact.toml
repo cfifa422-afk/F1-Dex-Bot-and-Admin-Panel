@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "F1 Dex Admin"
+description = "A race-control admin dashboard for an F1-themed Discord collection game, with driver and constructor management, live race activity, player oversight, and bot operations controls."
+version = "1.0.0"
+id = "artifacts/f1-dex-admin"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 24394
+
+[services.development]
+run = "pnpm --filter @workspace/f1-dex-admin run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/f1-dex-admin", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/f1-dex-admin/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "24394"
+BASE_PATH = "/"

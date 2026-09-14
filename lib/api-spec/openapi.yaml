@@ -3,13 +3,23 @@ info:
   # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: F1 Dex admin API
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: dashboard
+    description: Admin overview data
+  - name: drivers
+    description: F1 driver collection management
+  - name: players
+    description: Player oversight
+  - name: activity
+    description: Recent bot activity
+  - name: bot
+    description: Discord bot operations
 paths:
   /healthz:
     get:
@@ -24,6 +34,186 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+  /dashboard:
+    get:
+      operationId: getDashboard
+      tags: [dashboard]
+      summary: Get the admin dashboard summary
+      responses:
+        "200":
+          description: Dashboard summary
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DashboardSummary"
+  /drivers:
+    get:
+      operationId: getDrivers
+      tags: [drivers]
+      summary: List F1 drivers
+      parameters:
+        - name: search
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Driver list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Driver"
+    post:
+      operationId: createDriver
+      tags: [drivers]
+      summary: Add a driver to the collection
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DriverInput"
+      responses:
+        "201":
+          description: Created driver
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Driver"
+        "400":
+          description: Invalid driver
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /drivers/{id}:
+    patch:
+      operationId: updateDriver
+      tags: [drivers]
+      summary: Update a driver
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DriverUpdate"
+      responses:
+        "200":
+          description: Updated driver
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Driver"
+        "404":
+          description: Driver not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    delete:
+      operationId: deleteDriver
+      tags: [drivers]
+      summary: Remove a driver
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Driver deleted
+        "404":
+          description: Driver not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /players:
+    get:
+      operationId: getPlayers
+      tags: [players]
+      summary: List players
+      parameters:
+        - name: search
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: status
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [active, flagged, inactive]
+      responses:
+        "200":
+          description: Player list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Player"
+  /activity:
+    get:
+      operationId: getActivity
+      tags: [activity]
+      summary: List recent bot activity
+      responses:
+        "200":
+          description: Activity list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Activity"
+  /bot/status:
+    get:
+      operationId: getBotStatus
+      tags: [bot]
+      summary: Get Discord bot status
+      responses:
+        "200":
+          description: Bot status
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BotStatus"
+  /bot/actions:
+    post:
+      operationId: runBotAction
+      tags: [bot]
+      summary: Run an admin bot action
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BotActionInput"
+      responses:
+        "200":
+          description: Action result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BotActionResult"
+        "400":
+          description: Invalid action
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
 components:
   schemas:
     HealthStatus:
@@ -31,6 +221,193 @@ components:
       properties:
         status:
           type: string
-      required:
-        - status
-
+      required: [status]
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+      required: [error]
+    Driver:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        shortName:
+          type: string
+        number:
+          type: integer
+        team:
+          type: string
+        nationality:
+          type: string
+        rarity:
+          type: string
+          enum: [common, rare, epic, legendary]
+        rating:
+          type: integer
+        active:
+          type: boolean
+        imageUrl:
+          type: ["string", "null"]
+        createdAt:
+          type: string
+      required: [id, name, shortName, number, team, nationality, rarity, rating, active, imageUrl, createdAt]
+    DriverInput:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 2
+        shortName:
+          type: string
+          minLength: 2
+        number:
+          type: integer
+          minimum: 0
+        team:
+          type: string
+          minLength: 2
+        nationality:
+          type: string
+          minLength: 2
+        rarity:
+          type: string
+          enum: [common, rare, epic, legendary]
+        rating:
+          type: integer
+          minimum: 1
+          maximum: 100
+        active:
+          type: boolean
+        imageUrl:
+          type: ["string", "null"]
+      required: [name, shortName, number, team, nationality, rarity, rating, active]
+    DriverUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 2
+        shortName:
+          type: string
+          minLength: 2
+        number:
+          type: integer
+          minimum: 0
+        team:
+          type: string
+          minLength: 2
+        nationality:
+          type: string
+          minLength: 2
+        rarity:
+          type: string
+          enum: [common, rare, epic, legendary]
+        rating:
+          type: integer
+          minimum: 1
+          maximum: 100
+        active:
+          type: boolean
+        imageUrl:
+          type: ["string", "null"]
+    Player:
+      type: object
+      properties:
+        id:
+          type: integer
+        username:
+          type: string
+        discordTag:
+          type: string
+        collectionCount:
+          type: integer
+        balance:
+          type: integer
+        status:
+          type: string
+          enum: [active, flagged, inactive]
+        lastActiveAt:
+          type: string
+        favoriteDriver:
+          type: string
+      required: [id, username, discordTag, collectionCount, balance, status, lastActiveAt, favoriteDriver]
+    Activity:
+      type: object
+      properties:
+        id:
+          type: integer
+        type:
+          type: string
+          enum: [drop, trade, player, race, system]
+        title:
+          type: string
+        detail:
+          type: string
+        timestamp:
+          type: string
+        accent:
+          type: string
+      required: [id, type, title, detail, timestamp, accent]
+    DashboardSummary:
+      type: object
+      properties:
+        totalPlayers:
+          type: integer
+        activeGuilds:
+          type: integer
+        cardsCollected:
+          type: integer
+        tradesToday:
+          type: integer
+        weeklyClaims:
+          type: integer
+        weeklyClaimsChange:
+          type: number
+        collectionCompletion:
+          type: number
+        topDriver:
+          type: string
+        recentActivity:
+          type: array
+          items:
+            $ref: "#/components/schemas/Activity"
+      required: [totalPlayers, activeGuilds, cardsCollected, tradesToday, weeklyClaims, weeklyClaimsChange, collectionCompletion, topDriver, recentActivity]
+    BotStatus:
+      type: object
+      properties:
+        connected:
+          type: boolean
+        latencyMs:
+          type: integer
+        guildCount:
+          type: integer
+        version:
+          type: string
+        branch:
+          type: string
+        lastHeartbeat:
+          type: string
+      required: [connected, latencyMs, guildCount, version, branch, lastHeartbeat]
+    BotActionInput:
+      type: object
+      properties:
+        action:
+          type: string
+          enum: [sync-drivers, publish-drop, refresh-cache, pause-drops]
+      required: [action]
+    BotActionResult:
+      type: object
+      properties:
+        success:
+          type: boolean
+        action:
+          type: string
+        message:
+          type: string
+        timestamp:
+          type: string
+      required: [success, action, message, timestamp]
