@@ -287,12 +287,12 @@ class Command(BaseCommand):
         asyncio.set_event_loop(loop)
 
         try:
-            token = settings.bot_token
+            token = os.environ.get("DISCORD_TOKEN") or settings.bot_token
             if not token:
                 log.error("Token not found!")
                 raise CommandError("You must provide a token inside the config.yml file.")
 
-            db_url = os.environ.get("BALLSDEXBOT_DB_URL", None)
+            db_url = os.environ.get("BALLSDEXBOT_DB_URL") or os.environ.get("DATABASE_URL")
             if not db_url:
                 log.error("Database URL not found!")
                 raise CommandError("You must provide a DB URL with the BALLSDEXBOT_DB_URL env var.")
