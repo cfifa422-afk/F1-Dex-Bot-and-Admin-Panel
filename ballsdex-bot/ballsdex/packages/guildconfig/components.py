@@ -25,8 +25,12 @@ class AcceptTOSView(View):
         self.new_player = new_player
         self.message: Optional[discord.Message] = None
 
-        self.add_item(Button(style=discord.ButtonStyle.link, label="Terms of Service", url=settings.terms_of_service))
-        self.add_item(Button(style=discord.ButtonStyle.link, label="Privacy policy", url=settings.privacy_policy))
+        if settings.terms_of_service:
+            self.add_item(
+                Button(style=discord.ButtonStyle.link, label="Terms of Service", url=settings.terms_of_service)
+            )
+        if settings.privacy_policy:
+            self.add_item(Button(style=discord.ButtonStyle.link, label="Privacy policy", url=settings.privacy_policy))
 
     async def interaction_check(self, interaction: discord.Interaction["BallsDexBot"]) -> bool:
         if not await interaction.client.blacklist_check(interaction):
